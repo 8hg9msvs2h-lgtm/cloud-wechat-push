@@ -1,11 +1,10 @@
 name: 每日推送
 
 on:
-  schedule:
-    # A股盘前资讯: 北京时间 8:30 (UTC+8 = UTC+0 00:30)
-    - cron: "30 0 * * 1-5"
-    # AI新闻简报: 北京时间 9:00 (UTC+8 = UTC+0 01:00)
-    - cron: "0 1 * * *"
+  # 定时触发已禁用 — 已回退到 WorkBuddy 本地 AI 自动化
+  # schedule:
+  #   - cron: "30 0 * * 1-5"
+  #   - cron: "0 1 * * *"
   workflow_dispatch:
     inputs:
       task:
@@ -21,7 +20,7 @@ jobs:
   push-stock:
     name: A股盘前资讯
     # 仅在周一至周五运行（手动触发除外）
-    if: github.event_name == 'workflow_dispatch' || (github.event.schedule == '30 0 * * 1-5')
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -44,7 +43,7 @@ jobs:
 
   push-ai:
     name: AI新闻简报
-    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 1 * * *'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
